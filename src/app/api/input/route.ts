@@ -22,3 +22,11 @@ export async function POST(req: NextRequest) {
     console.log(err);
   }
 }
+
+export async function GET() {
+  try {
+    return new Response(JSON.stringify("hello world"), { status: 200 });
+  } catch (err) {
+    console.log(err);
+  }
+}

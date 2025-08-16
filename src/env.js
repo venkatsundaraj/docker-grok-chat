@@ -11,10 +11,7 @@ export const env = createEnv({
       .enum(["development", "test", "production"])
       .default("development"),
 
-    DATABASE_URL: z
-      .string()
-      .min(1)
-      .url({ message: "Please enter the correct url" }),
+    DATABASE_URL: z.string().min(1),
     NEXT_PUBLIC_APP_URL: z.string().min(1),
   },
 
