@@ -33,7 +33,8 @@ const page: FC<pageProps> = () => {
     <form onSubmit={onSubmit} className="flex gap-3">
       <input
         onChange={handleInputChange}
-        type="number"
+        type="text"
+        required
         className="border border-white rounded-sm p-2"
         placeholder="Type your message..."
       />

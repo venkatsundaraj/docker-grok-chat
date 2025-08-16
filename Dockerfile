@@ -32,7 +32,10 @@ COPY . .
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
 # Uncomment the following line in case you want to disable telemetry during the build.
+ENV NEXT_PUBLIC_APP_URL="http://localhost:3000"
+ENV DATABASE_URL="postgresql://postgres:BOMpGoGBzmqFtMZVscPFvoKRReGwkpGl@nozomi.proxy.rlwy.net:13191/railway"
 ENV NEXT_TELEMETRY_DISABLED=1
+
 
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
