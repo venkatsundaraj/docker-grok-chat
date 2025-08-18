@@ -14,6 +14,7 @@ interface GestureControllerProps {
   onPointingUp?: () => void;
   onVictory?: () => void;
   onILoveYou?: () => void;
+  onIdle?: () => void;
   onPinchClick?: () => void; // custom (from landmarks)
   onPointerMove?: (x: number, y: number) => void;
 }
@@ -23,46 +24,6 @@ const GestureController: FC<GestureControllerProps> = (props) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-
-  const initializeCamera = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      setError("");
-
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          width: { ideal: 600 },
-          height: { ideal: 480 },
-          facingMode: "user",
-        },
-      });
-
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        await videoRef.current.play();
-      }
-      setIsLoading(false);
-    } catch (err) {
-      setError("Failed to access camera. Please grant camera permissions.");
-      setIsLoading(false);
-      console.error("Camera initialization error:", err);
-    }
-  }, []);
-
-  const drawVideoToCanvas = useCallback(async () => {
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-
-    if (!video || !canvas || video.readyState !== 4) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-  }, []);
 
   useEffect(() => {
     let recognizer: GestureRecognizer | null = null;
@@ -117,16 +78,18 @@ const GestureController: FC<GestureControllerProps> = (props) => {
       const gestureForHands = res.gestures ?? [];
       if (gestureForHands.length > 0 && gestureForHands[0].length > 0) {
         const top = gestureForHands[0][0];
+        console.log(top.categoryName);
         switch (top.categoryName) {
           case "Thumb_Up":
-            console.log("Thumb_Up");
+            // console.log("Thumb_Up");
             props.onThumbUp?.();
             break;
           case "Thumb_Down":
-            console.log("Thumb_Down");
+            // console.log("Thumb_Down");
             props.onThumbDown?.();
             break;
           case "Open_Palm":
+            console.log("Open_Palm");
             props.onOpenPalm?.();
             break;
           case "Closed_Fist":
@@ -177,6 +140,7 @@ const GestureController: FC<GestureControllerProps> = (props) => {
         const result = recognizer.recognizeForVideo(video, now);
         drawLandmarks(result);
         actOnResults(result);
+
         lastVideoTime = video.currentTime;
       }
       raf = requestAnimationFrame(frame);
@@ -195,7 +159,7 @@ const GestureController: FC<GestureControllerProps> = (props) => {
       const vision = await FilesetResolver.forVisionTasks(
         "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm"
       );
-      console.log(vision);
+      // console.log(vision);
       recognizer = await GestureRecognizer.createFromOptions(vision, {
         baseOptions: {
           modelAssetPath:
@@ -205,7 +169,12 @@ const GestureController: FC<GestureControllerProps> = (props) => {
         numHands: 2,
         cannedGesturesClassifierOptions: {
           // example: only keep a few gestures
-          categoryAllowlist: ["Open_Palm", "Closed_Fist", "Thumb_Up"],
+          categoryAllowlist: [
+            "Open_Palm",
+            "Closed_Fist",
+            "Thumb_Up",
+            "Thumb_Down",
+          ],
         },
       });
 
@@ -224,10 +193,10 @@ const GestureController: FC<GestureControllerProps> = (props) => {
   }, [props]);
 
   return (
-    <section className="w-full h-full items-center justify-center flex relative">
+    <section className="w-full h-full items-center justify-center  relative hidden">
       <video
         ref={videoRef}
-        className="w-full max-w-2xl rounded-lg"
+        className="w-full max-w-2xl rounded-lg "
         playsInline
         autoPlay
         muted
@@ -245,3 +214,43 @@ const GestureController: FC<GestureControllerProps> = (props) => {
 };
 
 export default GestureController;
+
+// const initializeCamera = useCallback(async () => {
+//   try {
+//     setIsLoading(true);
+//     setError("");
+
+//     const stream = await navigator.mediaDevices.getUserMedia({
+//       video: {
+//         width: { ideal: 600 },
+//         height: { ideal: 480 },
+//         facingMode: "user",
+//       },
+//     });
+
+//     if (videoRef.current) {
+//       videoRef.current.srcObject = stream;
+//       await videoRef.current.play();
+//     }
+//     setIsLoading(false);
+//   } catch (err) {
+//     setError("Failed to access camera. Please grant camera permissions.");
+//     setIsLoading(false);
+//     console.error("Camera initialization error:", err);
+//   }
+// }, []);
+
+// const drawVideoToCanvas = useCallback(async () => {
+//   const video = videoRef.current;
+//   const canvas = canvasRef.current;
+
+//   if (!video || !canvas || video.readyState !== 4) return;
+
+//   const ctx = canvas.getContext("2d");
+//   if (!ctx) return;
+
+//   canvas.width = video.videoWidth;
+//   canvas.height = video.videoHeight;
+
+//   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+// }, []);
