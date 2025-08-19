@@ -1,29 +1,31 @@
+import "server-only";
+
 import { env } from "@/env";
 import { db } from "@/server/db";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { createAuthMiddleware, oAuthProxy } from "better-auth/plugins";
 
-const getTrustedOrigins = () => {
-  const origins = new Set<string>();
-  const add = (v?: string) => v && origins.add(v);
+// const getTrustedOrigins = () => {
+//   const origins = new Set<string>();
+//   const add = (v?: string) => v && origins.add(v);
 
-  const toOrigin = (host?: string) =>
-    host?.startsWith("http") ? host : host ? `https://${host}` : undefined;
-  const toWWWOrigin = (host?: string) =>
-    host?.startsWith("http") ? host : host ? `https://www.${host}` : undefined;
+//   const toOrigin = (host?: string) =>
+//     host?.startsWith("http") ? host : host ? `https://${host}` : undefined;
+//   const toWWWOrigin = (host?: string) =>
+//     host?.startsWith("http") ? host : host ? `https://www.${host}` : undefined;
 
-  add(process.env.BETTER_AUTH_URL);
+//   add(process.env.BETTER_AUTH_URL);
 
-  add(toOrigin(process.env.VERCEL_BRANCH_URL));
-  add(toOrigin(process.env.VERCEL_URL));
-  add(toWWWOrigin(process.env.VERCEL_BRANCH_URL));
-  add(toWWWOrigin(process.env.VERCEL_URL));
+//   add(toOrigin(process.env.VERCEL_BRANCH_URL));
+//   add(toOrigin(process.env.VERCEL_URL));
+//   add(toWWWOrigin(process.env.VERCEL_BRANCH_URL));
+//   add(toWWWOrigin(process.env.VERCEL_URL));
 
-  add("https://www.contentport.io"); // prod
-  add("http://localhost:3000"); // local dev
-  return Array.from(origins);
-};
+//   add("https://www.contentport.io"); // prod
+//   add("http://localhost:3000"); // local dev
+//   return Array.from(origins);
+// };
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -32,7 +34,7 @@ export const auth = betterAuth({
   secret: env.BETTER_AUTH_SECRET!,
   baseURL: env.BETTER_AUTH_URL!,
 
-  trustedOrigins: getTrustedOrigins(),
+  // trustedOrigins: getTrustedOrigins(),
   plugins:
     env.NODE_ENV === "production"
       ? [
