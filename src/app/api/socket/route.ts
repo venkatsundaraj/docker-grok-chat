@@ -71,12 +71,25 @@ if (!globalAny.wss) {
       }
     });
 
+    ws.on("close", () => {
+      clients.delete(clientId);
+      console.log(`Client ${clientId} disconnected. Total: ${clients.size}`);
+      broadCast(
+        {
+          type: "user_left",
+          message: `${clientInfo.userName} left the chat`,
+          timestamp: new Date().toISOString(),
+        },
+        clientId
+      );
+    });
+
     function broadCast(message: object, excludeId: string | null) {
       const msgStr = JSON.stringify(message);
       console.log(msgStr);
       clients.forEach((client, clientId) => {
-        // if (clientId !== excludeId && client.ws.readyState === WebSocket.OPEN) {
-        if (client.ws.readyState === WebSocket.OPEN) {
+        if (clientId !== excludeId && client.ws.readyState === WebSocket.OPEN) {
+          // if (client.ws.readyState === WebSocket.OPEN) {
           client.ws.send(msgStr);
         }
       });
@@ -86,13 +99,16 @@ if (!globalAny.wss) {
   globalAny.wss = wss;
 }
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   try {
-    return new Response(
-      JSON.stringify({ message: "WebSocket server running on port 3001" }),
+    return NextResponse.json(
+      { message: "WebSocket server running on port 3001" },
       { status: 200 }
     );
   } catch (err) {
-    console.log(err);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
 }
