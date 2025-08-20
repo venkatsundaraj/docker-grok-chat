@@ -39,7 +39,7 @@ export const auth = betterAuth({
     env.NODE_ENV === "production"
       ? [
           oAuthProxy({
-            productionURL: "https://docker-grok-chat-production.up.railway.app", // Replace with your domain
+            productionURL: "http://localhost:3000", // Replace with your domain
             currentURL: env.BETTER_AUTH_URL,
           }),
         ]
@@ -51,7 +51,7 @@ export const auth = betterAuth({
       clientSecret: env.GOOGLE_CLIENT_SECRET,
       redirectURI:
         env.NODE_ENV === "production"
-          ? "https://docker-grok-chat-production.up.railway.app/api/auth/callback/google" // Replace with your domain
+          ? "http://localhost:3000/api/auth/callback/google" // Replace with your domain
           : "http://localhost:3000/api/auth/callback/google",
     },
   },
