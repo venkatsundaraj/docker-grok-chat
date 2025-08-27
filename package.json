@@ -25,6 +25,7 @@
     "drizzle-kit": "^0.31.4",
     "drizzle-orm": "^0.44.4",
     "next": "15.3.1",
+    "next-ai": "link:",
     "pnpm": "^10.14.0",
     "postgres": "^3.4.7",
     "react": "^19.0.0",
