@@ -13,6 +13,8 @@ export const env = createEnv({
 
     DATABASE_URL: z.string().min(1),
     NEXT_PUBLIC_APP_URL: z.string().min(1),
+    NEXT_PUBLIC_CONVEX_URL: z.string().min(1),
+    CONVEX_DEPLOYMENT: z.string().min(1),
   },
 
   /**
@@ -34,6 +36,8 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
 
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    NEXT_PUBLIC_CONVEX_URL: process.env.NEXT_PUBLIC_CONVEX_URL,
+    CONVEX_DEPLOYMENT: process.env.CONVEX_DEPLOYMENT,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
