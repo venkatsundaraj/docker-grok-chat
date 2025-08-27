@@ -47,7 +47,8 @@ const Chat: FC<ChatProps> = () => {
     const fetchData = async function () {
       const data = await fetch("/api/socket");
 
-      const webSocket = new WebSocket("ws://192.168.1.6:3001");
+      // const webSocket = new WebSocket("ws://192.168.1.6:3001");
+      const webSocket = new WebSocket("");
 
       webSocket.onopen = () => {
         console.log("connected");
