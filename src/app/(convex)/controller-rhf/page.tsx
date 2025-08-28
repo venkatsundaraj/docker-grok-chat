@@ -4,17 +4,17 @@ import { Controller, useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RadioGroup, RadioGroupItem } from "@/app/_components/ui/radio-group";
-import { submitData } from "@/app/actions/form";
 
 interface pageProps {}
 
-export const dataSchema = z.object({
+const dataSchema = z.object({
   text: z.string().min(1),
   typeOfLaptop: z.enum(["apple", "windows", "linux"]),
   beverages: z.enum(["pepsi", "7up", "paperboat"]),
 });
 
 export type DataSchema = z.infer<typeof dataSchema>;
+
 const page: FC<pageProps> = ({}) => {
   const {
     register,
@@ -26,7 +26,7 @@ const page: FC<pageProps> = ({}) => {
   });
 
   const submitHandler = async function (e: DataSchema) {
-    submitData(e);
+    // submitData(e);
   };
 
   const valueChangeHandler = function (e: ChangeEvent<HTMLSelectElement>) {
