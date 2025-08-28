@@ -102,7 +102,7 @@ if (!globalAny.wss) {
 export async function GET(req: NextRequest) {
   try {
     return NextResponse.json(
-      { message: "WebSocket server running on port 3001" },
+      JSON.stringify({ message: "WebSocket server running on port 3001" }),
       { status: 200 }
     );
   } catch (err) {
