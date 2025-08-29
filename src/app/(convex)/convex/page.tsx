@@ -1,5 +1,12 @@
 "use client";
-import { ChangeEvent, FC, FormEvent, useState } from "react";
+import {
+  ChangeEvent,
+  FC,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { api } from "../../../../convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
 
@@ -9,11 +16,24 @@ const page: FC<pageProps> = ({}) => {
   const [inputValue, setInputValue] = useState<string>("");
   const createTodo = useMutation(api.todos.createTodo);
   const getTodos = useQuery(api.todos.getTodos);
+  const deleteTodos = useMutation(api.todos.deleteTodos);
   const submitHandler = async function (e: FormEvent) {
     e.preventDefault();
     await createTodo({ text: inputValue });
     setInputValue("");
   };
+
+  useEffect(() => {
+    console.log(true);
+    if (getTodos && getTodos?.length > 10) {
+      console.log("the length is more than ten");
+      const fetchData = async function () {
+        const res = await deleteTodos();
+        console.log(getTodos, res);
+      };
+      fetchData();
+    }
+  }, [getTodos]);
 
   const changeHandler = function (e: ChangeEvent<HTMLInputElement>) {
     setInputValue(e.target.value);
