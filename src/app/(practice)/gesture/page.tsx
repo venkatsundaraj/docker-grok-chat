@@ -1,6 +1,8 @@
 "use client";
 import { FC, useEffect, useRef, useState } from "react";
 import GestureController from "@/app/_components/gestures/GestureController";
+import Link from "next/link";
+import { Icon } from "@/app/_components/icons";
 
 interface pageProps {}
 
@@ -60,6 +62,16 @@ const page: FC<pageProps> = ({}) => {
             Close Fist - Pause
           </h1>
         </div>
+
+        <Link
+          target="_blank"
+          className="underline inline-flex items-center justify-center gap-3"
+          href={
+            "https://www.venkatsundaraj.dev/blog/how-i-built-a-gesture-controller"
+          }
+        >
+          My Journey with Convex <Icon.ArrowRight />
+        </Link>
       </section>
       <section className="w-screen h-screen bg-slate-600" />
       <section className="w-screen h-screen bg-blue-700" />
