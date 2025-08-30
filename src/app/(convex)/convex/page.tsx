@@ -9,6 +9,8 @@ import {
 } from "react";
 import { api } from "../../../../convex/_generated/api";
 import { useMutation, useQuery } from "convex/react";
+import Link from "next/link";
+import { Icon } from "@/app/_components/icons";
 
 interface pageProps {}
 
@@ -40,6 +42,15 @@ const page: FC<pageProps> = ({}) => {
   };
   return (
     <section className="w-full flex flex-col items-center justify-center min-h-screen">
+      <h2>
+        <Link
+          target="_blank"
+          className="underline inline-flex items-center justify-center gap-3"
+          href={"www.venkatsundaraj.dev/blog/my-journey-with-convex"}
+        >
+          My Journey with Convex <Icon.ArrowRight />
+        </Link>
+      </h2>
       <form
         onSubmit={submitHandler}
         className="min-w-xl p-4 flex items-center justify-center flex-col gap-3"
@@ -59,7 +70,7 @@ const page: FC<pageProps> = ({}) => {
       </form>
       <ul className="flex flex-col items-start justify-center gap-2">
         {getTodos?.map((item, i) => (
-          <li className="text-white" key={i}>
+          <li className="text-white text-center w-full" key={i}>
             {item.text}
           </li>
         ))}

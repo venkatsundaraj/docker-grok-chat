@@ -24,7 +24,7 @@ const page: FC<pageProps> = ({}) => {
 
         console.log("Server init response:", await res.json());
 
-        const newSocket = io("http://192.168.1.6:3001", {
+        const newSocket = io("http://localhost:3001", {
           path: "/api/canvas",
           transports: ["websocket"],
         });
