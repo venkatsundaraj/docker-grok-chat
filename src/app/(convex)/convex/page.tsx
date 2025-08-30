@@ -46,7 +46,7 @@ const page: FC<pageProps> = ({}) => {
         <Link
           target="_blank"
           className="underline inline-flex items-center justify-center gap-3"
-          href={"www.venkatsundaraj.dev/blog/my-journey-with-convex"}
+          href={"https://www.venkatsundaraj.dev/blog/my-journey-with-convex"}
         >
           My Journey with Convex <Icon.ArrowRight />
         </Link>
